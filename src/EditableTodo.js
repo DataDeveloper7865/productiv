@@ -12,21 +12,32 @@ import TodoForm from "./TodoForm";
  * EditableTodoList -> EditableTodo -> { Todo, TodoForm }
  */
 
-function EditableTodo() {
+function EditableTodo({ todo, update, remove }) {
+
+  const [formData, setFormData] = useState({todo})
 
   /** Toggle if this is being edited */
-  function toggleEdit() { }
+  function toggleEdit() {
+    // <EditableTodoList />
+   }
 
   /** Call remove fn passed to this. */
-  function handleDelete() { }
+  function handleDelete() { 
+    remove(todo);
+  }
 
   /** Edit form saved; toggle isEditing and update in ancestor. */
-  function handleSave(formData) { }
+  function handleSave(formData) { 
+    const updated = setFormData(formData)
+    update(updated);
+  }
+
+  console.log("WE ARE IN EDITABLE TODO!!", todo)
 
   return (
       <div className="EditableTodo">
 
-                EITHER
+                {/* EITHER
 
                 <TodoForm />
 
@@ -44,8 +55,9 @@ function EditableTodo() {
                         onClick={handleDelete}>
                       Del
                     </button>
-                  </div>
-                  <Todo />
+                  </div> */}
+                  <div>
+                  <Todo todo={todo}/>
                 </div>
 
       </div>

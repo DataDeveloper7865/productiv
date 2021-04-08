@@ -8,11 +8,12 @@ import React from "react";
  * { EditableTodo, TodoApp } -> Todo
  **/
 
-function Todo() {
+function Todo({todo}) {
+  console.log("WE ARE IN THE TODO", todo)
   return (
-      <div className="Todo">
-        <div><b>Title</b> <small>(priority: 1)</small></div>
-        <div><small>Description.</small></div>
+      <div id={todo.id} className="Todo">
+        <div><b>{todo.title}</b> <small>Priority: {todo.priority}</small></div>
+        <div><small>{todo.description}</small></div>
       </div>
   );
 }
