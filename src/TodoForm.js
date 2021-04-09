@@ -10,26 +10,23 @@ import {v4 as uuid} from 'uuid';
  * { TodoApp, EditableTodo } -> TodoForm
  */
 
-function TodoForm({initialFormData, create}) {
-
+function TodoForm({initialFormData, handleSave}) {
   const [formData, setFormData] = useState(initialFormData)
 
   /** Update form input. */
   function handleChange(evt) { 
     const {name, value} = evt.target;
-    setFormData(data => ({
-      ...data,
+    setFormData(formData => ({
+      ...formData,
       [name]: value,
     }))
   }
 
   /** Call parent function and clear form. */
   function handleSubmit(evt) {
-    evt.preventDefault()
-    // create(formData)
-    formData['id'] = uuid()
-    create(formData)
-    setFormData(initialFormData)
+    evt.preventDefault();
+    handleSave(formData);
+    setFormData(initialFormData);
    }
 
   return (

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
-
 import TopTodo from "./TopTodo";
 import EditableTodoList from "./EditableTodoList";
 import TodoForm from "./TodoForm";
@@ -18,27 +17,23 @@ import Todo from "./Todo";
  */
 
 function TodoApp({initialTodos}) {
-
-  const [todos, setTodos] = useState(initialTodos)
-
-  console.log("WE ARE IN TODO APP - LIST OF TODOS :", todos)
+  const [todos, setTodos] = useState(initialTodos);
+  const initialFormData = {title : "", description: "", priority: 1};
 
   /** add a new todo to list */
   function create(newTodo) {
-    const myNewTodo = newTodo
-    console.log('WE ARE IN CREATE', myNewTodo)
-    const todosCopy = [...todos, myNewTodo]
-    console.log('todosCOPy', todosCopy)
-    setTodos(todosCopy)
+    setTodos(todos => [...todos, { id: uuid(), ...newTodo }]);
   }
 
   /** update a todo with updatedTodo */
   function update(updatedTodo) {
-
+    setTodos(todos => todos.map(
+      todo => todo.id === updatedTodo.id ? updatedTodo : todo));
   }
 
   /** delete a todo by id */
   function remove(id) {
+    setTodos(todos => todos.filter(todo => id !== todo.id));
   }
 
   return (
@@ -46,8 +41,9 @@ function TodoApp({initialTodos}) {
         <div className="row">
 
           <div className="col-md-6">
-            <EditableTodoList todos={todos} /> OR
-            <span className="text-muted">You have no todos.</span>
+            {todos.length > 0 ?
+            <EditableTodoList todos={todos} update={update} remove={remove} /> 
+            : <span className="text-muted">You have no todos.</span>}
           </div>
 
           <div className="col-md-6">
@@ -59,7 +55,7 @@ function TodoApp({initialTodos}) {
 
             <section>
               <h3 className="mb-3">Add Nü</h3>
-              <TodoForm initialFormData = {{id:"", title : "", description: "", priority: 1}} create={create} />
+              <TodoForm initialFormData = {initialFormData} handleSave={create} />
             </section>
           </div>
 
